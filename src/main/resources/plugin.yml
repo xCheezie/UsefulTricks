@@ -1,19 +1,15 @@
-name: PluginDev1
-author: Articuling, AppleRex
+name: UsefulTricks
+author: Articuling
 version: 1.0
-main: me.articuling.plugindev1.PluginDev1
+main: me.articuling.usefultricks.UsefulTricks
 api-version: '1.20'
 commands:
-  gmc:
-    description: Set your gamemode to creative!
-    aliases: [gamemodec]
   pickup:
     description: Set to true/false if you can pickup items!
     aliases: [item]
-depend: [PlaceholderAPI]
+  usefultricks:
+      description: Allows to reload the plugin
 
 permissions:
-  plugindev1.command.gmc:
-    description: Allows someone to do /gmc
-  plugindev1.command.pickup:
+  usefultricks.command.pickup:
     description: Allows someone to turn on or off item pickup using /pickup

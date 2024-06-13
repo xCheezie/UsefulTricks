@@ -1,4 +1,4 @@
-package me.articuling.plugindev1.commands;
+/*package me.articuling.plugindev1.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,3 +52,4 @@ public class gmc implements CommandExecutor {
         return true;
     }
 }
+*/
