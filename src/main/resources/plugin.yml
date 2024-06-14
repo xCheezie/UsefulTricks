@@ -13,3 +13,5 @@ commands:
 permissions:
   usefultricks.command.pickup:
     description: Allows someone to turn on or off item pickup using /pickup
+  usefultricks.command.reload:
+    description: Allows someone to use the command /usefultricks reload

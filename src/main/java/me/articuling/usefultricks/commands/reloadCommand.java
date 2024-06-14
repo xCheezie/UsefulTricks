@@ -17,11 +17,11 @@ public class reloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
+        Player p = (Player) sender;
+    if (p.hasPermission("usefultricks.command.reload")) {
         if (sender instanceof Player) {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("Reload")) {
-                    Player p = (Player) sender;
                     plugin.reloadConfig();
                     plugin.saveConfig();
                     p.sendMessage(ChatColor.GREEN + "UsefulTricks has been reloaded!");
@@ -37,7 +37,9 @@ public class reloadCommand implements CommandExecutor {
 
         }
 
-
+    }else {
+        p.sendMessage(ChatColor.RED + "You do not have permission to do that command!");
+    }
 
 
         return true;
