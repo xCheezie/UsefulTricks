@@ -33,6 +33,11 @@ public final class UsefulTricks extends JavaPlugin {
         // LISTENERS
         this.getServer().getPluginManager().registerEvents(new joinListener(this), this);
         this.getServer().getPluginManager().registerEvents(new leaveListener(), this);
+
+        // Manager
+        int pluginId = 22261;
+        Metrics metrics = new Metrics(this, 22261);
+        metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Servers"));
     }
 
     @Override
