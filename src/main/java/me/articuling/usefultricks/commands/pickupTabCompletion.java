@@ -20,14 +20,14 @@ public class pickupTabCompletion implements TabCompleter {
             List<String> playerNames = new ArrayList<>();
             Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
             Bukkit.getServer().getOnlinePlayers().toArray(players);
-            for (int i = 0; 0 < players.length; i++) {
+            for (int i = 0; i < players.length; i++) {
                 playerNames.add(players[i].getName());
                 playerNames.add("*");
-
+            }
                   return playerNames;
 
 
-            }
+
 
 
         }
