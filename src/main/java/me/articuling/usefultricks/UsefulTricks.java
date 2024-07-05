@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class UsefulTricks extends JavaPlugin {
 
 
+    public static String nopermission;
     private static UsefulTricks plugin;
     @Override
     public void onEnable() {
@@ -26,7 +27,7 @@ public final class UsefulTricks extends JavaPlugin {
 
       //  getCommand("gmc").setExecutor(new gmc());
         getCommand("usefultricks").setExecutor(new reloadCommand(this));
-        getCommand("pickup").setExecutor(new pickupCommand());
+        getCommand("pickup").setExecutor(new pickupCommand(this));
         getCommand("pickup").setTabCompleter(new pickupTabCompletion());
         getCommand("usefultricks").setTabCompleter(new reloadTabCompleter());
 

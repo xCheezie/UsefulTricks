@@ -14,9 +14,31 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 public class pickupCommand implements CommandExecutor {
+    private UsefulTricks plugin;
+
+    public pickupCommand(UsefulTricks plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        String gotdisabled = this.plugin.getConfig().get("got-disabled").toString();
+        String madedisabled = this.plugin.getConfig().get("made-disabled").toString();
+
+        String gotenabled = this.plugin.getConfig().get("got-enabled").toString();
+        String madeenabled = this.plugin.getConfig().get("made-enabled").toString();
+
+        String targetenabled = this.plugin.getConfig().get("target-enabled").toString();
+        String targetdisabled = this.plugin.getConfig().get("target-disabled").toString();
+
+        String canpickup = this.plugin.getConfig().get("can-pickup").toString();
+        String cannotpickup = this.plugin.getConfig().get("cannot-pickup").toString();
+
+        String playeroffline = this.plugin.getConfig().get("player-offline").toString();
+
+        String selfconsolepickup = this.plugin.getConfig().get("self-pickup-console").toString();
+        String notplayer = this.plugin.getConfig().get("not-console-or-player").toString();
+
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (p.hasPermission("usefultricks.command.pickup")) {
@@ -25,11 +47,11 @@ public class pickupCommand implements CommandExecutor {
                     if (p.getCanPickupItems()) {
                         p.setCanPickupItems(false);
                         p.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, false);
-                        p.sendMessage(ChatColor.RED + "You cannot pickup items now!");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',cannotpickup));
                     } else {
                         p.setCanPickupItems(true);
                         p.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, true);
-                        p.sendMessage(ChatColor.GREEN + "You can pickup items now!");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',canpickup));
                     }
                 } else {
                     String playerName = args[0];
@@ -41,52 +63,55 @@ public class pickupCommand implements CommandExecutor {
                             if (players.isOnline()) {
                                 if (Boolean.TRUE.equals(players.getPersistentDataContainer().get(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN))) {
                                     players.setCanPickupItems(false);
-                                    players.sendMessage(ChatColor.RED + name + " has disabled your pickup!");
+                                    players.sendMessage(ChatColor.translateAlternateColorCodes('&', gotdisabled.replaceAll("%player%", p.getDisplayName())));
+                                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', madedisabled));
                                     players.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, false);
                                 } else {
                                     players.setCanPickupItems(true);
-                                    players.sendMessage(ChatColor.GREEN + name + " has enabled your pickup!");
+                                    players.sendMessage(ChatColor.translateAlternateColorCodes('&', gotenabled.replaceAll("%player%", p.getDisplayName())));
+                                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', madeenabled));
                                     players.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, true);
                                 }
                             }
                         }
                     } else if (target != null) {
                         if (target.getCanPickupItems()) {
-                            p.sendMessage(ChatColor.RED + "You have successfully disabled " + target.getDisplayName() + "'s pickup!");
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', targetdisabled.replaceAll("%player%", target.getDisplayName())));
                             target.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, false);
                             target.setCanPickupItems(false);
-                            target.sendMessage(ChatColor.RED + name + " has disabled your pickup!");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', gotdisabled.replaceAll("%player%", p.getDisplayName())));
                         } else {
-                            p.sendMessage(ChatColor.GREEN + "You have successfully enabled " + target.getDisplayName() + "'s pickup!");
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', targetenabled.replaceAll("%player%", target.getDisplayName())));
                             target.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, true);
                             target.setCanPickupItems(true);
-                            target.sendMessage(ChatColor.GREEN + name + " has enabled your pickup!");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', gotenabled.replaceAll("%player%", p.getDisplayName())));
                         }
                     } else {
-                        p.sendMessage("You have not specified a player or the player is offline!");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', playeroffline));
                     }
                 }
             } else {
-                p.sendMessage(ChatColor.RED + "You do not have permission to do that command!");
+                String noperm = plugin.getConfig().get("no-permission").toString();
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', noperm));
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            ConsoleCommandSender c = (ConsoleCommandSender) sender;
+            ConsoleCommandSender console = (ConsoleCommandSender) sender;
             if (args.length > 0) {
                 String playerName = args[0];
-                String name = c.getName();
+                String name = console.getName();
 
                 if (playerName.equals("*")) {
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         if (players.isOnline()) {
                             if (Boolean.TRUE.equals(players.getPersistentDataContainer().get(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN))) {
                                 players.setCanPickupItems(false);
-                                players.sendMessage(ChatColor.RED + name + " has disabled your pickup!");
-                                c.sendMessage(ChatColor.RED + "You have successfully disabled all player's pickup!");
+                                players.sendMessage(ChatColor.translateAlternateColorCodes('&', gotdisabled.replaceAll("%player%", console.getName())));
+                                console.sendMessage(ChatColor.translateAlternateColorCodes('&', madedisabled.replaceAll("%player%", console.getName())));
                                 players.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, false);
                             } else {
                                 players.setCanPickupItems(true);
-                                players.sendMessage(ChatColor.GREEN + name + " has enabled your pickup!");
-                                c.sendMessage(ChatColor.GREEN + "You have successfully enabled all player's pickup!");
+                                players.sendMessage(ChatColor.translateAlternateColorCodes('&', gotenabled.replaceAll("%player%", console.getName())));
+                                console.sendMessage(ChatColor.translateAlternateColorCodes('&', madeenabled.replaceAll("%player%", console.getName())));
                                 players.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, true);
                             }
                         }
@@ -95,25 +120,25 @@ public class pickupCommand implements CommandExecutor {
                     Player target = Bukkit.getServer().getPlayerExact(playerName);
                     if (target != null) {
                         if (target.getCanPickupItems()) {
-                            c.sendMessage(ChatColor.RED + "You have successfully disabled " + target.getDisplayName() + "'s pickup!");
+                            console.sendMessage(ChatColor.translateAlternateColorCodes('&', targetdisabled.replaceAll("%player%", target.getDisplayName())));
                             target.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, false);
                             target.setCanPickupItems(false);
-                            target.sendMessage(ChatColor.RED + name + " has disabled your pickup!");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', gotdisabled.replaceAll("%player%", console.getName())));
                         } else {
-                            c.sendMessage(ChatColor.GREEN + "You have successfully enabled " + target.getDisplayName() + "'s pickup!");
+                            console.sendMessage(ChatColor.translateAlternateColorCodes('&', targetenabled.replaceAll("%player%", target.getDisplayName())));
                             target.getPersistentDataContainer().set(new NamespacedKey(UsefulTricks.getPlugin(), "pickup"), PersistentDataType.BOOLEAN, true);
                             target.setCanPickupItems(true);
-                            target.sendMessage(ChatColor.GREEN + name + " has enabled your pickup!");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', gotenabled.replaceAll("%player%", console.getName())));
                         }
                     } else {
-                        c.sendMessage(ChatColor.RED + "You have not specified a player or the player is offline!");
+                        console.sendMessage(ChatColor.translateAlternateColorCodes('&', playeroffline));
                     }
                 }
             } else {
-                c.sendMessage(ChatColor.RED + "You cannot do that command!");
+                console.sendMessage(ChatColor.translateAlternateColorCodes('&', selfconsolepickup));
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "This command can only be run by a player or console!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', notplayer));
         }
         return true;
     }

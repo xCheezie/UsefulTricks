@@ -1,6 +1,7 @@
 package me.articuling.usefultricks.listeners;
 
 import me.articuling.usefultricks.UsefulTricks;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -23,6 +24,8 @@ public class joinListener implements Listener {
        // String replaced = PlaceholderAPI.setPlaceholders(p, "%player_name%");
 
             Boolean value = this.plugin.getConfig().getBoolean("default-message");
+        //e.setJoinMessage("");
+
           //  e.setJoinMessage(ChatColor.translateAlternateColorCodes('&',"&b(&e+&b) &e") + replaced);
         if (value == true) {
             p.sendMessage(ChatColor.GREEN + "Your default pickup value is " + data);

@@ -1,4 +1,22 @@
-# USEFULTRICKS BY ARTICULING, version 1.4
+# USEFULTRICKS BY ARTICULING, version 1.5
 # Discord DM: 'xcheezie' for suggestions or help!
 
 default-message: false
+
+# CUSTOMIZABLE MESSAGES!
+# USE %player% for the player name!
+# Use minecraft color coding using character '&' for colors!
+
+no-permission: "&cYou do not have permission to do that command!"
+reload-message: "&aUsefulTricks has been reloaded!"
+can-pickup: "&cYou cannot pickup items now!"
+cannot-pickup: "&aYou can pickup items now!"
+got-disabled: "&c%player% has disabled your pickup!"
+got-enabled: "&a%player% has enabled your pickup!"
+made-disabled: "&cYou have successfully disabled all player's pickup!"
+made-enabled: "&aYou have successfully enabled all player's pickup!"
+target-enabled: "&aYou have successfully enabled %player%'s pickup!"
+target-disabled: "&cYou have successfully disabled %player%'s pickup!"
+player-offline: "&cYou have not specified a player or the player is offline!"
+self-pickup-console: "&cYou cannot do that command!"
+not-console-or-player: "&cThis command can only be run by a player or console!"

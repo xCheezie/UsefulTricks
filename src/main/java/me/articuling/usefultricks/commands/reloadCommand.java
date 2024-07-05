@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class reloadCommand implements CommandExecutor {
-    private final UsefulTricks plugin;
+    private UsefulTricks plugin;
 
     public reloadCommand(UsefulTricks plugin) {
         this.plugin = plugin;
@@ -24,7 +24,8 @@ public class reloadCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("Reload")) {
                 plugin.reloadConfig();
                 plugin.saveConfig();
-                sender.sendMessage(ChatColor.GREEN + "UsefulTricks has been reloaded!");
+                String reloadcommand = this.plugin.getConfig().get("reload-message").toString();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', reloadcommand));
 
 
             } else {
@@ -36,7 +37,8 @@ public class reloadCommand implements CommandExecutor {
 
 
     } else {
-        sender.sendMessage(ChatColor.RED + "You do not have permission to do that command!");
+        String noperm = this.plugin.getConfig().get("no-permission").toString();
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noperm));
     }
 
 
