@@ -9,8 +9,8 @@ default-message: false
 
 no-permission: "&cYou do not have permission to do that command!"
 reload-message: "&aUsefulTricks has been reloaded!"
-can-pickup: "&cYou cannot pickup items now!"
-cannot-pickup: "&aYou can pickup items now!"
+can-pickup: "&aYou can pickup items now!"
+cannot-pickup: "&cYou cannot pickup items now!"
 got-disabled: "&c%player% has disabled your pickup!"
 got-enabled: "&a%player% has enabled your pickup!"
 made-disabled: "&cYou have successfully disabled all player's pickup!"
