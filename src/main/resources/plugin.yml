@@ -1,6 +1,6 @@
 name: UsefulTricks
 author: Articuling
-version: 1.5
+version: 1.6
 main: me.articuling.usefultricks.UsefulTricks
 api-version: '1.20'
 commands:
